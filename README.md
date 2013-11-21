@@ -18,4 +18,7 @@ Mozilla API : https://mozilla-ichnaea.readthedocs.org/en/latest/api/search.html
 TODO : 
  - try with wicd-cli
  - better output with [http://stedolan.github.io/jq/](jq)
- 
+
+mozlosh comes from **Moz**illa **lo**cation **sh**ell
+
+
