@@ -13,7 +13,10 @@ Wireless interface is given as first argument.
 
 Mozilla API : https://mozilla-ichnaea.readthedocs.org/en/latest/api/search.html
 
-`iwlist` needs sudo.
+
+Dependancies :
+ - `iwlist` (needs `sudo`)
+ - `jq` http://stedolan.github.io/jq/
 
 TODO : 
  - try with wicd-cli
