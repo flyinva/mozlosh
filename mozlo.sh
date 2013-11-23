@@ -1,13 +1,21 @@
 #!/bin/bash
 
-function whichOs {
-    if [ -x /sbin/iwlist ]
-    then
-        os='linux'
-    elif [ -x /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport ]
-    then
-        os='apple'
-    fi
+function getStationsNetworkManager {
+    echo $(echo -n '{ "wifi": [' ;\
+    nmcli -fields BSSID,FREQ,SIGNAL device wifi | grep -v SSID | sed 's/ MHz//' |\
+    awk '{print "{\"key\":\""$1"\",\"frequency\":"$2",\"level\":"$3"},"}' |\
+    tr -d '  \n' |\
+    sed s/,$// ;\
+    echo -n ']}')
+}
+
+function getStationsWicd {
+    echo $(echo -n '{ "wifi": [' ;\
+    wicd-cli --wireless --list-networks | grep -v SSID | sed 's/ MHz//' |\
+    awk '{print "{\"key\":\""$2"\",\"channel\":"$3"},"}' |\
+    tr -d '  \n' |\
+    sed s/,$// ;\
+    echo -n ']}')
 }
 
 function getStationsIwlist {
@@ -23,7 +31,7 @@ function getStationsIwlist {
 
 function getStationsAirport {
     echo $(echo -n '{ "wifi": [' ;\
-    cat /tmp/airport | grep -v SSID |\
+    /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport | grep -v SSID |\
     awk '{print "{\"key\":\""$2"\",\"channel\":"$4",\"level\":"$3"},"}' |\
     tr -d '  \n' |\
     sed s/,$// ;\
@@ -32,17 +40,18 @@ function getStationsAirport {
 
 API='https://location.services.mozilla.com/v1/search'
 
-whichOs
-
-case $os in
-    linux)
+case $1 in
+    nmcli)
+        data=$(getStationsNetworkManager)
+        ;;
+    iwlist)
         data=$(getStationsIwlist)
         ;;
-    apple)
+    airport)
         data=$(getStationsAirport)
         ;;
 esac
 
 echo -e "$data"
-echo $data | curl --silent --data @- $API | jq '.'
+#echo $data | curl --silent --data @- $API | jq '.'
 
