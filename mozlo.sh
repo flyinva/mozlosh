@@ -40,9 +40,14 @@ function getStationsAirport {
 
 API='https://location.services.mozilla.com/v1/search'
 
-case $1 in
+cmd=${1:-iwlist}
+
+case $cmd in
     nmcli)
         data=$(getStationsNetworkManager)
+        ;;
+    wicd)
+        data=$(getStationsWicd)
         ;;
     iwlist)
         data=$(getStationsIwlist)
