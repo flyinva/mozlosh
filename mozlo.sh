@@ -30,8 +30,9 @@ function getStationsIwlist {
 }
 
 function getStationsAirport {
+  
     echo $(echo -n '{ "wifi": [' ;\
-    /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport | grep -v SSID |\
+    /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -s | grep -v SSID |\
     awk '{print "{\"key\":\""$2"\",\"channel\":"$4",\"level\":"$3"},"}' |\
     tr -d '  \n' |\
     sed s/,$// ;\
@@ -58,5 +59,5 @@ case $cmd in
 esac
 
 echo -e "$data"
-#echo $data | curl --silent --data @- $API | jq '.'
+echo $data | curl --silent --data @- $API | jq '.'
 
