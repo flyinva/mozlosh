@@ -51,6 +51,8 @@ esac
 
 data='{ "wifi": ['$data']}'
 
-echo -e "$data"
+echo "Send to API"
+echo -e "$data" | jq '.'
+echo "Received"
 echo $data | curl --silent --data @- $API | jq '.'
 
