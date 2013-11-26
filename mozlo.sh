@@ -53,6 +53,16 @@ data='{ "wifi": ['$data']}'
 
 echo "Send to API"
 echo -e "$data" | jq '.'
-echo "Received"
-echo $data | curl --silent --data @- $API | jq '.'
+response=$(echo $data | curl --silent --data @- $API)
+status=$(echo $response | jq '.status' | sed 's/"//g')
+lon=$(echo $response | jq '.lon')
+lat=$(echo $response | jq '.lat')
+
+if [ "$status" = "ok" ]
+then
+    echo "Received"
+    echo $response | jq '.'
+    echo "http://www.openstreetmap.org/#map=16/$lat/$lon"
+fi
+
 
