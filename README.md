@@ -5,12 +5,12 @@ mozlosh
 
 ## Description
 
-Bash script to get location from WiFi with [http://location.services.mozilla.com/](Mozilla location service).
+Bash script to get location from WiFi with [Mozilla location service](http://location.services.mozilla.com/).
 
 What this script does :
 
  - runs a command to get wireless stations around
- - retreives BSSID, channel, frequency and signal power (depends of command)
+ - retrieves BSSID, channel, frequency and signal power (depends of command)
  - uses Mozilla location service API to get the position
 
 Mozilla API : https://mozilla-ichnaea.readthedocs.org/en/latest/api/search.html
@@ -45,6 +45,5 @@ All commands don't show all informations
 `nmcli` shows signal level but not in DBM, I can't find the unit ;-)
 
 ## TODO
- 
- - better output with [http://stedolan.github.io/jq/](jq)
 
+ - better output with [jq](http://stedolan.github.io/jq/)
